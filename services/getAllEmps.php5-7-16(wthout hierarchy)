@@ -1,0 +1,80 @@
+<?php 
+include('config.php');
+ini_set('display_errors', 1);
+
+$teamlist= "'".implode("','", explode(',', $_SESSION['user_info']['teamid']))."'";
+
+$sql="SELECT * FROM emp_master em  ";
+$show = false;
+
+if(!isset($_REQUEST['emp_no'])) {
+	$sub_deptid = $_SESSION['user_info']['sub_deptid'];
+	$lev = $_SESSION['user_info']['lev'];
+	$teamlist= "'".implode("','", explode(',', $_SESSION['user_info']['teamid']))."'";
+	$Emp_No = $_SESSION['user_info']['Emp_No'];
+	$Emp_Name = $_SESSION['user_info']['Emp_Name'];
+
+} else {
+	$empDetail= getEmpDetails($db, $_REQUEST['emp_no']);
+	$queryempres= getEmpFullDetails($db, $empDetail['emailid']);
+    
+    $queryemprow = $queryempres->fetch_array();
+
+    $sub_deptid = $queryemprow['sub_deptid'];
+	$lev = $queryemprow['lev'];
+	$teamlist= "'".implode("','", explode(',', $queryemprow['teamid']))."'";
+	$Emp_No = $queryemprow['Emp_No'];
+	$Emp_Name = $queryemprow['Emp_Name'];
+}
+
+switch($lev) {
+	case 'DIR':
+	$sql.= " where em.level='HOD' and em.status='A' order by Emp_Name asc";
+	break;
+	
+	case 'hod':
+	$sql.= " where level='0' and status='A' and sub_deptid  like concat('%',substr(".$_SESSION['user_info']['sub_deptid'].",1,2),'%') order by Emp_Name asc ";
+	break;
+	
+	case 'shead':
+	$sql.= " where level='1' and company <> 'PHRS'  and (allocation=0 or allocation in(".$teamlist.")) and status='A' and sub_deptid ='".$_SESSION['user_info']['sub_deptid']."' order by Emp_Name asc ";
+	break;
+	
+	case 'tlead':
+	$sql.= " where level='1' and company <> 'PHRS'  and status='A' and allocation in(".$teamlist.") and sub_deptid ='".$_SESSION['user_info']['sub_deptid']."' order by Emp_Name asc";
+	break;
+	
+	case 'core_team':
+	case 'core':
+	$show =true;
+	$sql.= " where level='-1' and company <> 'PHRS' ";
+	break;
+}
+$data = array();
+//echo $sql;
+$result = $db->query($sql);
+if(isset($_REQUEST['page']) && !isset($_REQUEST['emp_no'])){
+	$data[0]['id'] = $_SESSION['user_info']['Emp_No'];
+	$data[0]['name'] = $_SESSION['user_info']['Emp_Name'];
+        $data[0]['subdept'] = $_SESSION['user_info']['sub_deptid'];
+        
+	$i=1;
+} else if(isset($_REQUEST['emp_no'])) {
+		$data[0]['id'] = $Emp_No;
+		$data[0]['name'] = 'Assign to same above';
+		$i=1;
+
+}
+else $i=0;
+while($row = $result->fetch_array()) {
+	$data[$i]['id'] = $row['Emp_No'];
+	$data[$i]['name'] = $row['Emp_Name'];
+        $data[$i]['subdept'] = $row['sub_deptid'];
+	$i++;
+}
+//$data[$i]['sql'] =$sql;
+if(isset($_REQUEST['page'])){
+	echo json_encode(array('data' => $data,'show' => $show));
+
+}
+else echo json_encode($data);

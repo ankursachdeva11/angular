@@ -1,0 +1,92 @@
+<style>
+    
+    .modal.in .modal-dialog { width: 90% !important;}
+    .modal-header { padding: 5px !important; background: linear-gradient(to bottom, rgba(212,228,239,1) 0%, rgba(183,222,237,1) 51%, rgba(150,195,227,1) 100%); text-align: center !important;}
+    p{margin: 0px;}
+    td, th { padding: 5px !important;}    
+</style>
+                          <div class="modal-header">
+                            
+                              
+                              
+
+
+<button type="button" class="close" ng-click="cancelMeView()">&times;</button>
+                            
+                                
+<h3>
+<p style=" font-size: 20px; font-weight: bold;">View Task 
+   <a style="float:right;" title="Click here to update task"><i ng-click="edithomepopup(task_id);" class="fa fa-pencil-square-o fa-1x"></i></a>
+</p>
+</h3>
+                          
+                            
+                          </div>
+                          <!--<div class="modal-body">
+                                <table>
+                                    <tr><td>Subject</td><td>{{item.task_subject}}</td></tr>
+                                        <tr><td>Description</td><td>{{item.task_description}}</td></tr>
+                                        <tr><td>Create Date</td><td>{{item.create_date}}</td></tr>
+                                        <tr><td>Due Date</td><td>{{item.task_due_date}}</td></tr>
+                                        <tr><td>Status</td><td>{{item.task_status}}</td></tr>
+                                        <tr><td>Task Nature</td><td>{{item.task_nature}}</td></tr>
+                                        <tr><td>Issue</td><td>{{item.task_issue}}</td></tr>
+                                        <tr><td>Assign To</td><td>{{item.assign_to}}</td></tr>
+                                        <tr><td>Update By</td><td>{{item.updateby}}</td></tr>
+                                        <tr><td>Amount</td><td>{{item.task_amount}}</td></tr>
+                                        <tr><td>Remarks</td><td>{{item.remark}}</td></tr>
+                                    
+                                </table>
+                          </div>-->
+                          
+                          <div class="modal-body">
+                                <table>
+                                    <tr style="background-color: #adaeb0; color: white; font-weight: bold;"><td>Subject</td><td>{{taskheaddetails.subject}}</td></tr>
+                                    <tr style="background-color: #adaeb0; color: white; font-weight: bold;"><td>Description</td><td>{{taskheaddetails.description}}</td></tr>
+                                </table>
+                              <table>
+                                  
+                                  <thead>
+                                      <tr>
+                                      <th><a href="" ng-click="orderByField='task_nature'; reverseSort = !reverseSort">Task Nature</a></th>
+                                      <th><a href="" ng-click="orderByField='task_amount'; reverseSort = !reverseSort">Amount in lacs</a></th>
+                                      <th><a href="" ng-click="orderByField='task_issue'; reverseSort = !reverseSort">Issue</a></th>
+                                      <th><a href="" ng-click="orderByField='create_date'; reverseSort = !reverseSort">Create Date</a></th>
+                                      <th><a href="" ng-click="orderByField='task_due_date'; reverseSort = !reverseSort">Due Date</a></th>
+                                      <th><a href="" ng-click="orderByField='updateby'; reverseSort = !reverseSort">Assigned By</a></th>
+                                      <th><a href="" ng-click="orderByField='assign_to'; reverseSort = !reverseSort">Assign To</a></th>
+                                      <th><a href="" ng-click="orderByField='remark'; reverseSort = !reverseSort">Feedback</a></th>
+                                      <th><a href="" ng-click="orderByField='task_last_modify'; reverseSort = !reverseSort">Last Modify</a></th>
+                                      <th><a href="" ng-click="orderByField='task_last_modify_by'; reverseSort = !reverseSort">Last Modify By</a></th>
+                                      <th><a href="" ng-click="orderByField='task_status'; reverseSort = !reverseSort">Status</a></th>
+                                      
+                                     </tr>
+                                      
+                                  </thead>
+                                  
+                                  <tbody>
+                                      <tr ng-repeat="item in taskalldetails | orderBy:orderByField:reverseSort">
+                                          <td>{{item.task_nature}}</td>
+                                     <td>{{item.task_amount}}</td>
+                                      
+                                      <td>{{item.task_issue}}</td>
+                                      <td>{{item.create_date}}</td>
+                                      <td>{{item.task_due_date}}</td>
+                                      <td>{{item.updateby_name}}</td>
+                                      <td>{{item.assign_to_name}}</td>
+                                     
+                                     <td>{{item.remark}}</td>
+                                      <td>{{item.task_last_modify}}</td>
+                                      <td>{{item.task_last_modify_by_name}}</td>
+                                      <td>{{item.task_status}}</td>
+                                      
+                                   </tbody>
+                                        
+                                    
+                                </table>
+                          </div>
+                          <!--<div class="modal-footer">
+                            <button type="submit" class="btn btn-primary" ng-click="submittask()">Update</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                          </div>-->
+                    

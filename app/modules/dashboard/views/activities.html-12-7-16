@@ -1,0 +1,26 @@
+<div class="modal-dialog">
+
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Recent Activities of task</h4>
+                            It will show data from archive table of that particular task. On click on +(toogle) icon it will show all detail of that task.
+                          </div>
+                          <div class="modal-body">
+                                
+                              <ol>
+                                  <li ng-repeat="item in activities">
+                                      <a> + {{item.thing}} is updated by {{item.name}} on {{item.date}}</a> 
+                                      <p><s>{{item.old}}</s> changed to {{item.new}}</p> 
+                                  </li>
+                              </ol>
+                              
+                              
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                          </div>
+                        </div>
+
+                      </div>

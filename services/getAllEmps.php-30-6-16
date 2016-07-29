@@ -1,0 +1,43 @@
+<?php 
+include('config.php');
+ini_set('display_errors', 1);
+
+$sql="SELECT * FROM emp_master em  ";
+
+switch($_SESSION['user_info']['lev']) {
+	case 'DIR':
+	$sql.= " where em.level='HOD' and em.status='A' order by Emp_Name asc";
+	break;
+	
+	case 'hod':
+	$sql.= " where level='0' and status='A' and sub_deptid  like concat('%',substr(".$_SESSION['user_info']['sub_deptid'].",1,2),'%') order by Emp_Name asc ";
+	break;
+	
+	case 'shead':
+	$sql.= " where level='1' and (allocation=0 or allocation in(".$_SESSION['user_info']['teamid'].")) and status='A' and sub_deptid ='".$_SESSION['user_info']['sub_deptid']."' order by Emp_Name asc ";
+	break;
+	
+	case 'tlead':
+	$sql.= " where level='1' and status='A' and allocation = ".$_SESSION['user_info']['teamid']." and sub_deptid ='".$_SESSION['user_info']['sub_deptid']."' order by Emp_Name asc";
+	break;
+	
+	case 'core_team':
+	$sql.= " where level='-1'";
+	break;
+    
+        case 'core':
+	$sql.= " where level='-1'";
+	break;
+}
+$data = array();
+//echo $sql;
+$result = $db->query($sql);
+$i=0;
+while($row = $result->fetch_array()) {
+	$data[$i]['id'] = $row['Emp_No'];
+	$data[$i]['name'] = $row['Emp_Name'];
+	$i++;
+}
+//$data[$i]['sql'] =$sql;
+
+echo json_encode($data);

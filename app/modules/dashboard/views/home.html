@@ -1,0 +1,520 @@
+﻿<!--
+Author: Ranjithprabhu K
+Page Description: Dashboard Home page
+Date: 05 Jan 2016
+-->
+<style>
+    
+    table { 
+  width: 100%; 
+  border-collapse: collapse; 
+}
+/* Zebra striping */
+tr:nth-of-type(odd) { 
+  background: #eee; 
+}
+th { 
+  background: #333; 
+  color: white; 
+  font-weight: bold; 
+}
+td, th { 
+padding: 6px;
+  border: 1px solid #ccc; 
+  text-align: left; 
+}
+.fa-2x { font-size: 1.5em;}
+    
+</style>
+
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+       
+           <!--<span ng-show="show_assignee_parent"><h6>Departments</h6>
+                          <select id="assign" ng-model="assign_to" ng-change="getTaskPerId(assign_to); getchildemps(assign_to); ">
+                            <option  ng-repeat="item in emps" value="{{item.id}}">{{item.name}}</option>
+                          </select>
+               
+           </span>
+
+           <span  ng-show="show_assignee_child"  ng-show="subdeptshow"><h6>Sub Departments</h6>
+                         <select id="assign" ng-change="getTaskPerId(assignee_child);" data-ng-model="assignee_child">
+                    <option  ng-repeat="item in emps2" value="{{item.id}}">{{item.Emp_Name}} ({{item.dept_name}})</option>
+                  </select>
+               
+           </span>-->
+        
+        <table>
+            <tbody>
+<tr>
+   <td  ng-show="show_assignee_parent" style="widtyh:5%;">Department</td>
+    <td  ng-show="show_assignee_parent" style="width:10%;">
+        <select id="assign" ng-model="assign_to" ng-change="getTaskPerId(assign_to); getchildemps(assign_to); ">
+                            <option  ng-repeat="item in emps" value="{{item.id}}">{{item.name}}</option>
+                          </select>
+    </td>
+
+   
+
+    <td  ng-show="show_assignee_child" ng-show="subdeptshow" style="width:10%;">Sub Department</td>
+    <td  ng-show="show_assignee_child" ng-show="subdeptshow" style=" width: 25%;"> <select style=" width: 70%;" id="assign" ng-change="getTaskPerId(assignee_child);" data-ng-model="assignee_child">
+                    <option  ng-repeat="item in emps2" value="{{item.id}}">{{item.Emp_Name}} ({{item.dept_name}})</option>
+                  </select>
+        <i class="fa fa-undo" aria-hidden="true" ng-click="resetsubdeptmain();"></i>
+    </td>
+    
+    <td  ng-show="show_assignee_parent"> <i ng-click="addpopup();" class="fa fa-plus-circle fa-1x" title="Add new task">&nbsp;Create Task  </i></td>
+
+                               
+<!--<button type="submit" class="btn btn-primary" ng-click="resetfilter()">Reset Filter</button>-->
+</tr>  
+            </tbody>
+</table>
+        
+           <!--<ol class="breadcrumb">
+            <li><a><i class="fa fa-dashboard"></i> Dashboard</a></li>
+            <li class="active">Home</li>
+        </ol>-->
+           
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        
+       
+        <!-- Info boxes -->
+        <!--<div class="row">
+            <div class="col-md-3 col-sm-6 col-xs-12" data-ng-repeat="data in vm.home.mainData">
+                <div class="info-box">
+                    <span class="info-box-icon bg-{{data.theme}}"><i class="fa fa-{{data.icon}}"></i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">{{data.title}}</span>
+                        <span class="info-box-number">{{data.value}}</span>
+                    </div><!-- /.info-box-content 
+                </div><!-- /.info-box 
+            </div><!-- /.col 
+
+            <div class="col-md-3 col-sm-6 col-xs-12" ng-hide="show">
+                <div class="info-box">
+                    <span class="info-box-icon bg-green"><i class="fa fa-trophy"></i></span>
+                    <div class="info-box-content">
+                        <div class="form-group">
+                        <label for="assign">Employees :</label>
+                          <select class="form-control" id="assign" ng-model="assign_to" ng-change="getTaskPerId(assign_to)">
+                            <option  ng-repeat="item in emps" value="{{item.id}}">{{item.name}} ( {{item.subdept}} )</option>
+                          </select>
+                         
+
+                        </div>
+                    </div><!-- /.info-box-content
+                </div><!-- /.info-box 
+            </div><!-- /.col 
+        </div><!-- /.row -->
+        
+      
+           <!-- <div
+donut-chart
+donut-data='homegraph'
+donut-colors='["#31C0BE","#c7254e","#98a0d3","#FF4500"]'
+donut-formatter='"number"'>
+</div> -->
+           
+      
+        
+        <div class="row">
+            
+            <div  ng-show="graphshow" style="height:550px !important; overflow-y: auto;">
+            <div class="chartdiv"> 
+<div google-chart chart="myChartObject" class="col-md-6" style="height:300px;width: 100%;" agc-on-select="statusSelect(selectedItem)"></div>
+<span ng-show="nostatus" class="nostatus">No Task Available</span>
+</div><div class="chartdiv">
+<div google-chart chart="myNatureObject"  class="col-md-6" style="height:300px;width: 100%;" agc-on-select="natureSelect(selectedItem)"></div> 
+<span ng-show="nonature" class="nostatus">No Task Available</span>
+</div>
+    <div class="col-md-12"></div>
+<div class="chartdiv">
+<div google-chart chart="myLegalObject"  class="col-md-6" style="height:300px;width: 100%;" agc-on-select="legalSelect(selectedItem)"></div> 
+<span ng-show="nolegal" class="nostatus">No Task Available</span>
+</div>
+<div class="chartdiv">
+<div google-chart chart="myPriceObject"  class="col-md-6" style="height:300px;width: 100%;" agc-on-select="PriceSelect(selectedItem)"></div> 
+<span ng-show="noprice" class="nostatus">No Task Available</span>
+ </div></div>
+            
+          
+            
+           <div ng-show="tableshow" style="height:550px !important; overflow-y: auto;">
+            <!--<button type="submit" class="btn btn-primary" ng-click="backtograph()">Back to graph</button>-->
+                <div class="box">
+                    <div class="box-header with-border">
+                       
+                        
+                        <table>
+                        <tr>
+                        <td style="text-align:center;"><i class="fa fa-refresh" ng-click="resetfilter()" title="Refresh Filter">&nbsp;Refresh Filter</i>&nbsp;&nbsp;
+                        <span  ng-show="show_assignee_parent"><i ng-click="addpopup();" class="fa fa-plus-circle fa-1x" title="Add new task">&nbsp;Create Task </i></span>&nbsp;&nbsp;
+                        <i class="fa fa-pie-chart fa-1x" aria-hidden="true" ng-click="backtograph()" title="Click here to back to graph">&nbsp;Back to Graph</i>
+                        
+                        </td>
+                        </tr>
+                            
+                        </table>
+                            
+                        
+                        <table style=" background-color: #adaeb0;">
+                            <tbody>
+
+ <tr style=" background-color: #adaeb0; " >
+                             
+
+
+    <td style="padding: 0px !important;">From Create Date</td>
+     <td style="padding: 0px !important;">
+         <div class="input-group date" data-provide="datepicker" style="width:92%;">
+                    <input type="text" class="form-control"  required  data-ng-model="from_create_date"  ng-change="changecreateDate()">
+                    <div class="input-group-addon">
+                        <span class="glyphicon glyphicon-th"></span>
+                    </div>
+        </div>
+    </td>
+     
+
+     <td style="padding: 0px !important;">To Create Date</td>
+     <td style="padding: 0px !important;">
+         <div class="input-group date" data-provide="datepicker" style="width:92%;">
+                    <input type="text" class="form-control"  required  data-ng-model="to_create_date" ng-change="changecreateDate()">
+                    <div class="input-group-addon">
+                        <span class="glyphicon glyphicon-th"></span>
+                    </div>
+         </div>
+
+    </td>
+     <td style="padding: 0px !important;">From Due Date</td>
+ 
+  <td style="padding: 0px !important;">
+      <div class="input-group date" data-provide="datepicker" style="width:92%;">
+                    <input type="text" class="form-control"  required  data-ng-model="from_due_date"  ng-change="changeDate()">
+                    <div class="input-group-addon">
+                        <span class="glyphicon glyphicon-th"></span>
+                    </div>
+     </div></td>
+     
+
+       <td style="padding: 0px !important; width: 8%;">To Due Date</td>
+       <td style="padding: 0px !important;">
+           <div class="input-group date" data-provide="datepicker" style="width:92%;">
+                    <input type="text" class="form-control"  required  data-ng-model="to_due_date" ng-change="changeDate()">
+                    <div class="input-group-addon">
+                        <span class="glyphicon glyphicon-th"></span>
+                    </div>
+         </div>
+<script type="text/javascript">$('.datepicker').datepicker();</script>
+</td>
+
+</tr>
+
+                            <tr style=" background-color: #adaeb0;">
+                             
+
+
+
+  
+<td style="width:8%; padding: 0px !important;">
+    Task Nature</td>
+<td style="width:20%; padding: 0px !important;">  
+    <select name="status" name="filter" id="filter" style="width:92%;" ng-model="search.task_nature" ng-options="task_nature for task_nature in Tnature" ng-change="changeFilter()">Nature</select>
+
+<i class="fa fa-undo" aria-hidden="true" ng-click="search.task_nature=''"></i>
+ </td>
+  <td style="width:8%; padding: 0px !important;">Status</td>
+  <td style="padding: 0px !important;"><select name="taskdetails" id="statuschange" style="width:92%;" ng-model="search.task_status" ng-options="item.name as item.name for item in status" ng-change="changeFilter()">Status</select>
+     <i class="fa fa-undo" aria-hidden="true" ng-click="search.task_status=''"></i></td>
+   <td style="width:8%; padding: 0px !important;">Amount in lacs</td>
+  <td style="padding: 0px !important;"><select name="taskdetails" style="width:91%;" id="taskdetails" ng-model="search_task_amount" ng-change="changeAmount(search_task_amount)">
+    <!-- <option>All</option> -->
+    <option value="5-25">5-25 Lac</option>
+    <option value="25-200">25-200 Lac</option>
+    <option value="200">above 200 lac</option>
+</select>
+
+     <i class="fa fa-undo" aria-hidden="true" ng-click="reset_task_amount()"></i></td>
+   <td style="padding: 0px !important;">Legal Violation</td>
+  <td style="padding: 0px !important;"><select name="taskdetails" style="width:91%;" id="taskdetails" ng-model="search.legal" ng-options="legal for legal in legalvales" ng-change="changeFilter()">Legal Violation</select>
+
+     <i class="fa fa-undo" aria-hidden="true" ng-click="search.legal=''"></i></td>
+                        </tr>
+                        
+                        
+ <!--<tr style=" background-color: #adaeb0;">
+ 
+                       
+
+
+
+
+ 
+<!--<label>Search: <input ng-model="search.$"></label>
+
+</tr>-->
+                        
+<tr style=" background-color: #adaeb0;">
+   <td  ng-show="deptshow" style="padding: 0px !important;">Department</td>
+    <td  ng-show="deptshow" style="padding: 0px !important;">
+        <select name="department" style="width:92%;" id="filter" ng-model="search.dept_id" ng-options="item.id as item.name for item in dept" ng-change="changeFilter()">Nature</select>  
+        <i class="fa fa-undo" aria-hidden="true" ng-click="search.dept_id=''"></i>
+
+   </td>
+
+   
+
+    <td  ng-show="subdeptshow" style="padding: 0px !important;">Sub Department</td>
+    <td  ng-show="subdeptshow" style="padding: 0px !important;"><select name="subdepartment" style="width:92%;" id="filter" ng-model="search.sub_deptid" ng-options="item.id as item.name for item in subdept  | filter:{parent:search.dept_id}" ng-change="changeFilter()">Nature</select>                       
+<i class="fa fa-undo" aria-hidden="true" ng-click="search.sub_deptid=''"></i>
+</td>
+
+    
+<td>Print using</td>
+<td>
+    <a href="javascript:void(0);" id="download" title="Download" ng-click="printDiv('printDiv');"><i class="fa fa-file-word-o fa-2x" style="color: black;"></i></a>
+    &nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" id="download_pdf"  ng-click="pdfDiv('printDiv');" title="Download in pdf"><i class="fa fa-file-pdf-o fa-2x" style="color: red;"></i></a>
+    &nbsp;&nbsp;&nbsp;&nbsp;<a href="" id="download_excel1" title="Download in excel"><i class="fa fa-file-excel-o fa-2x" style="color: green;"></i></a>
+</td>
+<!--<button type="submit" class="btn btn-primary" ng-click="resetfilter()">Reset Filter</button>-->
+</tr>
+                            </tbody>
+                        
+                        </table>
+
+<!--div class="box-tools pull-right">
+                            <button class="btn btn-box-tool bg-aqua-gradient" data-ng-click="vm.showDetails=!vm.showDetails"><i class="fa fa-chevron-circle-up" data-ng-if="vm.showDetails"></i><i class="fa fa-chevron-circle-down" data-ng-if="!vm.showDetails"></i></button>
+                        </div>-->
+                    </div><!-- /.box-header -->
+
+                    <div class="box-body" id="printDiv" data-ng-show="vm.showDetails">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <table>
+                                    <thead>
+                                        
+                                        <tr>
+<th>S.No.</th>
+<th><a href="" ng-click="orderByField='task_subject'; reverseSort = !reverseSort">Subject</a></th>
+<th><a href="" ng-click="orderByField='task_nature'; reverseSort = !reverseSort">Task nature</a></th>
+<th><a href="" ng-click="orderByField='task_amount'; reverseSort = !reverseSort">Amount in lacs</a></th>
+<th><a href="" ng-click="orderByField='create_date'; reverseSort = !reverseSort">Create date</a></th>
+<th><a href="" ng-click="orderByField='task_due_date'; reverseSort = !reverseSort">Due date</a></th>
+<th><a href="" ng-click="orderByField='updateby'; reverseSort = !reverseSort">Assigned By</a></th>
+<th><a href="" ng-click="orderByField='assign_to'; reverseSort = !reverseSort">Assigned To</a></th>
+<th><a href="" ng-click="orderByField='task_issue'; reverseSort = !reverseSort">Issue</a></th>
+<th><a href="" ng-click="orderByField='remark'; reverseSort = !reverseSort">Feedback</a></th>
+<th><a href="" ng-click="orderByField='task_last_modify'; reverseSort = !reverseSort">Last modify</a></th>
+<th><a href="" ng-click="orderByField='legal'; reverseSort = !reverseSort">Legal Violation</a></th>
+<th><a href="" ng-click="orderByField='task_status'; reverseSort = !reverseSort">Status</a></th>
+                                        <!--<th>Activities</th>-->
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                         <tr ng-repeat="item in tasks  | filter:search | filter:amountchange | filter:datechange | filter:createchange | orderBy:orderByField:reverseSort">
+                                          <td>{{$index + 1}}</td>
+ <td><a href="javascript:void(0);" ng-click="openviewpopup(item.task_id)">{{item.task_subject}}</a></td>
+<td>{{item.task_nature}}</td>
+<td>{{item.task_amount}}</td>
+<td>{{item.create_date}}</td>
+<td>{{item.task_due_date}}</td>
+<td>{{item.updateby}}</td>
+<td>{{item.assign_to}}</td>
+<td>{{item.task_issue}}</td>
+<td>{{item.remark}}</td>
+<td>{{item.task_last_modify}}</td>
+<td>{{item.legal}}</td>
+<td>{{item.task_status}}</td>
+
+                                        <!--<td>Department</td>
+                                        <td>Subdept</td>-->
+                                        
+<!--<td><a href="javascript:void(0);" ng-click="activities(item.task_id)"><i class="fa fa-archive" aria-hidden="true" title="See all activities"></i></a>
+                    
+                </td>   -->                                     
+     
+                                        
+                                        </tr>
+                                    </tbody>
+                                    
+                                </table>                        
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                <!--<div id="owl-single" class="owl-carousel owl-theme">
+                                    <div class="item"> <img src="../../../../images/home/photo1.jpg" /></div>
+                                    <div class="item"> <img src="../../../../images/home/photo2.jpg" /></div>
+                                    <div class="item"> <img src="../../../../images/home/photo3.jpg" /></div>
+                                    <div class="item"> <img src="../../../../images/home/photo4.jpg" /></div>
+                                    <div class="item"> <img src="../../../../images/home/photo5.jpg" /></div>
+                                </div>-->
+                               
+                                
+<!--<div class="col-sm-6" style="border: 1px solid black;">
+         <span style="float:left; text-align: center; font-weight:bold; width:100%;">Completed Task</span>                                  
+    <table>
+    <thead>
+    <tr>
+        <th>S.No.</th>
+        <th>Subject</th>
+        <th>Completed Date</th>
+                <th>Assigned Date</th>
+    </tr>
+    </thead>
+    <tbody>
+                <tr ng-repeat="item in completed">
+        <td>{{$index + 1}}</td>
+                <td><a href="javascript:void(0);"  data-toggle="modal" data-target="#cmyModal_{{item.task_id}}">{{item.task_subject}}</a>
+<div id="cmyModal_{{item.task_id}}" class="modal fade" role="dialog">
+                      <div class="modal-dialog">
+
+                        <!-- Modal content
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">View Task</h4>
+                          </div>
+                          <div class="modal-body">
+                                <table>
+                                    <tr><td>Subject</td><td>{{item.task_subject}}</td></tr>
+                                        <tr><td>Description</td><td>{{item.task_description}}</td></tr>
+                                        <tr><td>Create Date</td><td>{{item.create_date}}</td></tr>
+                                        <tr><td>Due Date</td><td>{{item.task_due_date}}</td></tr>
+                                        <tr><td>Status</td><td>{{item.task_status}}</td></tr>
+                                        <tr><td>Task Nature</td><td>{{item.task_nature}}</td></tr>
+                                        <tr><td>Issue</td><td>{{item.task_issue}}</td></tr>
+                                        <tr><td>Assign To</td><td>{{item.assign_to}}</td></tr>
+                                        <tr><td>Update By</td><td>{{item.updateby}}</td></tr>
+                                        <!--<tr><td>Remarks</td><td>{{item.remark}}</td></tr>
+                                    
+                                </table>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                          </div>
+                        </div>
+
+                      </div>
+</div></td>
+        <td>{{item.task_last_modify}}</td>
+                <td>{{item.create_date}}</td>
+    </tr>
+    </tbody>
+</table>
+                   <button type="button" class="btn btn-info" ng-show="cshowall" ng-click="completedshowall();">Show all</button>                  
+</div>-->
+                            </div>
+                                <!-- /.col -->
+                            <!--<div class="col-md-4" style="border-left:1px solid #eee;">
+                                <p class="text-center">
+                                    <strong>Know your performance weekly</strong>
+                                </p>
+                                <div class="progress-group" data-ng-repeat="skill in vm.home.skills">
+                                    <span class="progress-text">{{skill.title}}</span>
+                                    <span class="progress-number"><b>{{skill.percentage}}</b>/100</span>
+                                    <div class="progress sm border-radius-5">
+                                        <div class="progress-bar progress-bar-{{skill.theme}}" style="width: {{skill.percentage}}%"></div>
+                                    </div>
+                                </div>
+                                <!-- /.progress-group
+                            </div>--><!-- /.col -->
+                        </div><!-- /.row -->
+                    </div><!-- ./box-body -->
+                    <!--<div class="box-footer">
+                    <div class="row">
+                        <h3 class="website-text text-uppercase">Tech & Tools I Use Most</h3>
+                        <div id="owl-demo" class="owl-carousel owl-theme">
+                            <div class="item bg-yellow-gradient">
+                                <img src="../../../../images/icons/angular.png" />
+                                <p>Angular JS</p>
+                            </div>
+                            <div class="item bg-light-blue-gradient">
+                                <img src="../../../../images/icons/mongodb.png" />
+                                <p>Mongo DB</p>
+                            </div>
+                            <div class="item bg-green-gradient">
+                                <img src="../../../../images/icons/express.png" />
+                                <p>Express JS</p>
+                            </div>
+                            <div class="item bg-maroon-gradient">
+                                <img src="../../../../images/icons/node.png" />
+                                <p>Node JS</p>
+                            </div>
+                            <div class="item bg-red-gradient">
+                                <img src="../../../../images/icons/javascript.png" />
+                                <p>Java Script</p>
+                            </div>
+                            <div class="item bg-teal-gradient">
+                                <img src="../../../../images/icons/typescript.png" />
+                                <p>Type Script</p>
+                            </div>
+                            <div class="item bg-purple-gradient">
+                                <img src="../../../../images/icons/jquery.png" />
+                                <p>jQuery</p>
+                            </div>
+                            <div class="item bg-black-gradient">
+                                <img src="../../../../images/icons/joomla.png" />
+                                <p>Joomla</p>
+                            </div>
+                            <div class="item bg-blue-gradient">
+                                <img src="../../../../images/icons/html5.png" />
+                                <p>HTML 5</p>
+                            </div>
+                            <div class="item bg-yellow-gradient">
+                                <img src="../../../../images/icons/css3.png" />
+                                <p>CSS 3</p>
+                            </div>
+                            <div class="item bg-light-blue-gradient">
+                                <img src="../../../../images/icons/saas.png" />
+                                <p>SAAS</p>
+                            </div>
+                            <div class="item bg-green-gradient">
+                                <img src="../../../../images/icons/bootstrap.png" />
+                                <p>Bootstrap</p>
+                            </div>
+                            <div class="item bg-red-gradient">
+                                <img src="../../../../images/icons/Photoshop.png" />
+                                <p>Photo Shop</p>
+                            </div>
+                            <div class="item bg-purple-gradient">
+                                <img src="../../../../images/icons/coreldraw.png" />
+                                <p>Corel Draw</p>
+                            </div>
+                            <div class="item bg-maroon-gradient">
+                                <img src="../../../../images/icons/java.png" />
+                                <p>Java</p>
+                            </div>
+                            <div class="item bg-green-gradient">
+                                <img src="../../../../images/icons/sql.png" />
+                                <p>SQL</p>
+                            </div>
+                            <div class="item bg-maroon-gradient">
+                                <img src="../../../../images/icons/hardware.png" />
+                                <p>Hardware</p>
+                            </div>
+                            <div class="item bg-red-gradient">
+                                <img src="../../../../images/icons/cloud.png" />
+                                <p>Cloud Computing</p>
+                            </div>
+                        </div>
+
+                        <div class="customNavigation">
+                            <a class="btn prev btn-info btn-sm btn-flat">Previous</a>
+                            <a class="btn next btn-warning btn-sm btn-flat">Next</a>
+                            <a class="btn play btn-success btn-sm btn-flat">Autoplay</a>
+                            <a class="btn stop btn-danger btn-sm btn-flat">Stop</a>
+                        </div>
+                        </div>
+
+                    </div>-->
+                    <!-- /.box-footer -->
+                </div><!-- /.box -->
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </section><!-- /.content -->

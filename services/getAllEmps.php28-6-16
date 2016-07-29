@@ -1,0 +1,15 @@
+<?php
+include('config.php');
+ini_set('display_errors', 1);
+
+
+$sql="select Emp_No,Emp_Name from emp_master order by Emp_Name asc";
+$data = array();
+$result = $db->query($sql);
+$i=0;
+while($row = $result->fetch_array()) {
+	$data[$i]['id'] = $row['Emp_No'];
+	$data[$i]['name'] = $row['Emp_Name'];
+	$i++;
+}
+echo json_encode($data);

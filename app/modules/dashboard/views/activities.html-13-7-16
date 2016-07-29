@@ -1,0 +1,58 @@
+<div class="modal-dialog">
+
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Recent Activities of task</h4>
+                          </div>
+                          <div class="modal-body">
+                                
+                              <!--<ol>
+                                  <li ng-repeat="item in activities">
+                                      <b>{{item.thing}}</b> is updated by {{item.name}} on {{item.date}} 
+                                      <p><s>{{item.old}}</s> changed to {{item.new}}</p> 
+                                  </li>
+                              </ol>-->
+ <table>
+                                  
+                                  <thead>
+                                      <tr>
+                                      <th>S.NO.</th>
+                                      <th>Column Name</th>
+                                      <th>Updated By</th>
+                                      <th>Updated On</th>
+                                      <th>From</th>
+                                      <th>To</th>
+                                          
+                                      </tr>
+                                      
+                                  </thead>
+                                  
+                                  
+                                  <tbody>
+                                      
+                                      <tr ng-repeat="item in activities">
+                                          
+                                      <td>{{$index + 1}}</td>
+                                      <td><b>{{item.thing}}</b></td>
+                                      <td>{{item.name}}</td>
+                                      <td>{{item.date}}</td>
+                                      <td>{{item.old}}</td>
+                                      <td>{{item.new}}</td>
+                                          
+                                      </tr>
+                                  </tbody>
+                                  
+                                  
+                                  
+                              </table>
+                                                            
+                              
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                          </div>
+                        </div>
+
+                      </div>
