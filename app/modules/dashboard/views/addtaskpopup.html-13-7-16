@@ -1,0 +1,117 @@
+<!-- <div id="editmyModal_{{item.task_id}}" class="modal fade" role="dialog"> -->
+
+                      <div class="modal-dialog">
+
+
+
+                        <!-- Modal content-->
+
+                        <div class="modal-content">
+
+                          <div class="modal-header">
+                                
+                         <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                            <h4 class="modal-title">Create Task</h4>
+
+                          </div>
+
+                          <div class="modal-body">
+
+                               <form  ng-submit="submittask()">
+            <div class="form-group">
+                <label for="inputSubject">Subject</label>
+                <input type="text" class="form-control" id="inputSubject" placeholder="Subject"  required data-ng-model="newtask.task_subject">
+            </div>
+
+            <div class="form-group">
+                <label for="inputDescription">Description</label>
+                <textarea class="form-control" id="inputDescription" placeholder="Description" data-ng-model="newtask.task_description"></textarea>
+            </div>
+
+            <div class="form-group"> 
+                <label class="control-label" for="date">Due Date</label>
+                
+                <div class="input-group date" data-provide="datepicker">
+                    <input type="text" class="form-control"  required  data-ng-model="newtask.task_duedate">
+                    <div class="input-group-addon">
+                        <span class="glyphicon glyphicon-th"></span>
+                    </div>
+                </div>
+              </div>
+              <script type="text/javascript">$('.datepicker').datepicker();</script>
+
+              <!--<div class="form-group">
+                  <label for="status">Status</label>
+                  <select class="form-control"  id="status" data-ng-model="newtask.task_status" required>
+                    <option  ng-repeat="item in status" value="{{item.name}}">{{item.name}}</option>
+                  </select>
+                 
+
+                </div> -->
+                
+            <div class="form-group">
+                  <label for="nature">Task Nature</label>
+                  <select class="form-control"   id="nature" data-live-search="true" data-ng-model="newtask.task_nature" required>
+                    <option value="Critical">Critical</option>
+                    <option value="Legal">Legal</option>
+                    <option value="Routine">Routine</option>
+                  </select>
+                 
+                </div>
+
+                <div class="form-group" ng-show="newtask.task_nature">
+                 
+                  <input type="checkbox" class="" id="legal" value="1" data-ng-model="newtask.legal">
+                  <label for="Legal">Legal Violation</label>
+                </div>
+                
+              <div class="form-group">
+                <label for="inputAmount">Amount</label>
+                <input type="text" class="form-control" id="inputAmount" placeholder="Amount"  required data-ng-model="newtask.task_amount">
+            </div>
+              
+            <!--<div class="form-group">
+                <label for="inputIssue">Issue</label>
+                <textarea class="form-control" id="inputIssue" placeholder="Issue" data-ng-model="newtask.task_issue"></textarea>
+            </div>-->
+
+                <div class="form-group" ng-hide="show">
+                  <label for="assign">Assign To</label>
+                  <select class="form-control" id="assign" data-ng-model="newtask.assign_to" required ng-change="getchildemps(newtask.assign_to);">
+                    <option  ng-repeat="item in emps" value="{{item.id}}">{{item.name}}</option>
+                  </select>
+                 
+
+                </div>
+
+                <div class="form-group" ng-show="show_assignee_child">
+                  <label for="assignee_child">Child Employees</label>
+                  <select class="form-control" id="assign" data-ng-model="newtask.assignee_child">
+                    <option  ng-repeat="item in emps2" value="{{item.id}}">{{item.name}}</option>
+                  </select>
+                 
+
+                </div>
+            
+            <div class="form-group">
+                <label for="inputRemark">Feedback</label>
+                <textarea class="form-control" id="inputRemark" placeholder="Feedback" data-ng-model="newtask.remark"></textarea>
+            </div>
+            
+
+
+            <button type="submit" class="btn btn-primary">Create</button>
+        </form>
+
+                          </div>
+
+                         
+
+                        </div>
+
+
+
+                      </div>
+
+            <!--         </div> -->

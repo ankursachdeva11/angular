@@ -1,0 +1,54 @@
+<style>
+    
+    .modal.in .modal-dialog { width: 80% !important;}
+    
+</style>
+                          <div class="modal-header">
+                            
+                              
+                              
+
+
+<button type="button" class="close" ng-click="closeModal()">&times;</button>
+                            <h4 class="modal-title">
+                                
+                                Notification
+                            
+                            
+                            </h4>
+                            
+                          </div>
+            
+                          
+                          <div class="modal-body">
+                              <h3 ng-show="notdir">Task assigned to me</h3>
+                              <table ng-show="notdir">
+                              <tr style="width:100%">
+                                <th style="width:50%">Subject</th>
+                                <th style="width:25%">Assigned by</th>
+                                <th style="width:25%">Action</th>  
+                              </tr>
+                              <tr ng-repeat="item in assigned" style="width:100%">
+                              <td style="width:50%">{{item.task_subject}}</td>
+                              <td style="width:25%">{{item.updateby}}</td>
+                              <td style="width:25%"><button id="accept_{{item.task_id}}" type="submit" class="btn btn-primary" ng-click="accept_task(item.task_id)">Accept</button><span style="display:none;" id="accepted_{{item.task_id}}">Accepted</span><td>
+                              </tr>
+                              </table>
+
+
+                            <h3 ng-show="notshead">Task assigned by me</h3>
+                            <table ng-show="notshead">
+                              <tr style="width:100%">
+                                <th style="width:50%">Subject</th>
+                                <th style="width:25%">Assigned To</th>
+                                <th style="width:25%">Action</th>  
+                              </tr>
+                              <tr ng-repeat="item in created" style="width:100%">
+                              <td style="width:50%">{{item.task_subject}}</td>
+                              <td style="width:25%">{{item.assign_to}}</td>
+                              <td style="width:25%">{{item.status}}</td>
+                              </tr>
+                              </table>
+                          </div>
+                          
+                    

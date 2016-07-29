@@ -1,0 +1,74 @@
+<!--
+Author: Ranjithprabhu K
+Page Description: Dashboard Home page
+Date: 05 Jan 2016
+-->
+<style>
+    
+    table { 
+  width: 100%; 
+  border-collapse: collapse; 
+}
+/* Zebra striping */
+tr:nth-of-type(odd) { 
+  background: #eee; 
+}
+th { 
+  background: #333; 
+  color: white; 
+  font-weight: bold; 
+}
+td, th { 
+  padding: 6px; 
+  border: 1px solid #ccc; 
+  text-align: left; 
+}
+
+    
+</style>
+
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+           Graphs
+        </h1>
+        <ol class="breadcrumb">
+            <li><a><i class="fa fa-dashboard"></i> Dashboard</a></li>
+            <li class="active">Home</li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Info boxes -->
+        <h1>Graph (In week)</h1>
+        <div
+            line-chart
+            line-data='graphdata'
+            line-xkey='y'
+            line-ykeys='["pending", "completed", "inprogress", "waiting"]'
+            line-labels='["Pending", "Completed", "Inprogress", "Waiting"]'
+            line-colors='["#31C0BE", "#c7254e", "#222d32", "#3ADF00"]'>
+            </div>
+
+
+            <h1>Graph (In month)</h1>
+        <div
+            line-chart
+            line-data='graphdatam'
+            line-xkey='y'
+            line-ykeys='["pending", "completed", "inprogress", "waiting"]'
+            line-labels='["Pending", "Completed", "Inprogress", "Waiting"]'
+            line-colors='["#31C0BE", "#c7254e", "#222d32", "#3ADF00"]'>
+            </div>
+
+
+            <h1>Graph (In year)</h1>
+        <div
+            line-chart
+            line-data='graphdatay'
+            line-xkey='y'
+            line-ykeys='["pending", "completed", "inprogress", "waiting"]'
+            line-labels='["Pending", "Completed", "Inprogress", "Waiting"]'
+            line-colors='["#31C0BE", "#c7254e", "#222d32", "#3ADF00"]'>
+            </div>
+    </section><!-- /.content -->
