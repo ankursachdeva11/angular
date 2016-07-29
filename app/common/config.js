@@ -13,7 +13,7 @@ var appConfig = {
     title: "Corporate Directory",
     lang: "en",
     dateFormat: "mm/dd/yy",
-    apiBase: 'http://sachdevaz.co.in/angular/services/',
+    apiBase: 'https://ankursachdeva11.github.io/angular/services/',
     theme: 'skin-purple',
     layout:""
 };
