@@ -1,0 +1,52 @@
+<?php
+include('config.php');
+ini_set('display_errors', 1);
+
+@$id = ($_SESSION['user_info']['userid']) ? $_SESSION['user_info']['userid'] : $_SESSION['user_info']['Emp_No'];
+$sql="select * from task_detail where updateby=".$id." or assign_to=".$id." order by task_due_date desc";
+$data = array();
+$result = $db->query($sql);
+$i=0;
+$pending_count = 0;
+$pending_tasks = array();
+$completed_count = 0;
+$completed_tasks = array();
+while($row = $result->fetch_array()) {
+		
+		$data = array();
+        $data['no'] = $i+1;
+		$data['task_id'] = $row['task_id'];
+		$data['task_subject'] = $row['task_subject'];
+		$data['task_description'] = $row['task_description'];
+        $data['task_due_date'] = $row['task_due_date'];
+        $data['task_status'] = strtolower($row['task_status']);
+        $data['task_nature'] = $row['task_nature'];
+
+        $emp_query = "select Emp_Name from emp_master where Emp_No = '".$row['assign_to']."'";
+        $emp_res = $db->query($emp_query);
+        $emp_row = $emp_res->fetch_array();
+        $data['assign_to'] = $emp_row['Emp_Name'];
+        $data['assign_to_id'] = $row['assign_to'];
+        $data['create_date'] = $row['create_date'];
+        $data['task_issue'] = $row['task_issue'];
+        $data['remark'] = $row['remark'];
+        $emp_query = "select Emp_Name from emp_master where Emp_No = '".$row['updateby']."'";
+        $emp_res = $db->query($emp_query);
+        $emp_row = $emp_res->fetch_array();
+        $data['updateby'] = $emp_row['Emp_Name'];
+		
+		if(strtolower($row['task_status']) != 'Completed'){
+			$pending_count++;
+			$pending_tasks[$pending_count] = $data;
+		}
+		
+		if(strtolower($row['task_status']) == 'Completed'){
+			$completed_count++;
+			$completed_tasks[$completed_count] = $data;
+		}
+	$i++;
+}
+echo json_encode(array('pending_count' => $pending_count,
+						'pending_tasks' => $pending_tasks,
+						'completed_count' => $completed_count,
+						'completed_tasks' => $completed_tasks));
